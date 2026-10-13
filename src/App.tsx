@@ -96,6 +96,10 @@ function App() {
   const [notice, setNotice] = useState('')
   const [activeFilter, setActiveFilter] = useState<TaskFilter>('all')
   const [storageError, setStorageError] = useState(false)
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null)
+  const [editTitle, setEditTitle] = useState('')
+  const [editDescription, setEditDescription] = useState('')
+  const [editError, setEditError] = useState('')
 
   const taskCounts = {
     all: tasks.length,
@@ -107,12 +111,60 @@ function App() {
     ? tasks
     : tasks.filter((task) => task.status === activeFilter)
 
+  function updateTasks(updatedTasks: Task[]) {
+    setTasks(updatedTasks)
+    setStorageError(!saveTasks(updatedTasks))
+  }
+
   function handleStatusChange(taskId: number, status: TaskStatus) {
     const updatedTasks = tasks.map((task) => (
       task.id === taskId ? { ...task, status } : task
     ))
-    setTasks(updatedTasks)
-    setStorageError(!saveTasks(updatedTasks))
+    updateTasks(updatedTasks)
+  }
+
+  function handleStartEdit(task: Task) {
+    setEditingTaskId(task.id)
+    setEditTitle(task.title)
+    setEditDescription(task.description)
+    setEditError('')
+  }
+
+  function handleCancelEdit() {
+    setEditingTaskId(null)
+    setEditTitle('')
+    setEditDescription('')
+    setEditError('')
+  }
+
+  function handleSaveEdit(event: FormEvent<HTMLFormElement>, taskId: number) {
+    event.preventDefault()
+    const trimmedTitle = editTitle.trim()
+
+    if (!trimmedTitle) {
+      setEditError('عنوان کار را وارد کن.')
+      return
+    }
+    if (trimmedTitle.length > TITLE_MAX_LENGTH) {
+      setEditError(`عنوان باید حداکثر ${TITLE_MAX_LENGTH} کاراکتر باشد.`)
+      return
+    }
+
+    const updatedTasks = tasks.map((task) => task.id === taskId
+      ? { ...task, title: trimmedTitle, description: editDescription.trim() }
+      : task
+    )
+    updateTasks(updatedTasks)
+    handleCancelEdit()
+    setNotice('تغییرات کار اعمال شد.')
+  }
+
+  function handleDeleteTask(task: Task) {
+    if (!window.confirm(`کار «${task.title}» حذف شود؟`)) return
+
+    updateTasks(tasks.filter((currentTask) => currentTask.id !== task.id))
+    if (editingTaskId === task.id) handleCancelEdit()
+    setNotice('کار حذف شد.')
   }
 
   function handleAddTask(event: FormEvent<HTMLFormElement>) {
@@ -143,8 +195,7 @@ function App() {
     }
 
     const updatedTasks = [newTask, ...tasks]
-    setTasks(updatedTasks)
-    setStorageError(!saveTasks(updatedTasks))
+    updateTasks(updatedTasks)
     setTitle('')
     setDescription('')
     setTitleError('')
@@ -275,7 +326,25 @@ function App() {
               {visibleTasks.length > 0 ? visibleTasks.map((task) => (
                 <article className="task-card" key={task.id}>
                   <span className={`task-check task-check-${task.status}`} aria-hidden="true">{task.status === 'done' ? '✓' : ''}</span>
-                  <div className="task-copy"><h3>{task.title}</h3><p>{task.description}</p></div>
+                  {editingTaskId === task.id ? (
+                    <form className="edit-task-form" onSubmit={(event) => handleSaveEdit(event, task.id)}>
+                      <label className="field">
+                        <span>عنوان کار</span>
+                        <input value={editTitle} maxLength={TITLE_MAX_LENGTH} onChange={(event) => { setEditTitle(event.target.value); setEditError('') }} aria-invalid={Boolean(editError)} />
+                      </label>
+                      <label className="field">
+                        <span>توضیح</span>
+                        <input value={editDescription} maxLength={DESCRIPTION_MAX_LENGTH} onChange={(event) => setEditDescription(event.target.value)} />
+                      </label>
+                      {editError && <small className="field-error" role="alert">{editError}</small>}
+                      <div className="edit-actions">
+                        <button className="edit-save-button" type="submit">ذخیره</button>
+                        <button className="edit-cancel-button" type="button" onClick={handleCancelEdit}>انصراف</button>
+                      </div>
+                    </form>
+                  ) : (
+                    <div className="task-copy"><h3>{task.title}</h3><p>{task.description}</p></div>
+                  )}
                   <label className={`status-badge status-${task.status}`}>
                     <span className="sr-only">وضعیت {task.title}</span>
                     <select
@@ -290,7 +359,10 @@ function App() {
                     </select>
                   </label>
                   <span className="task-date">{task.dueLabel}</span>
-                  <button className="task-menu" type="button" aria-label={`گزینه‌های ${task.title}`}>···</button>
+                  {editingTaskId !== task.id && <div className="task-actions">
+                    <button className="task-edit-button" type="button" aria-label={`ویرایش ${task.title}`} onClick={() => handleStartEdit(task)}>ویرایش</button>
+                    <button className="task-delete-button" type="button" aria-label={`حذف ${task.title}`} onClick={() => handleDeleteTask(task)}>حذف</button>
+                  </div>}
                 </article>
               )) : <p className="empty-state" role="status">در این وضعیت هنوز کاری نداری.</p>}
             </div>
