@@ -89,6 +89,13 @@ function saveTasks(tasksToSave: Task[]): boolean {
 }
 
 function App() {
+  const formattedDate = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date())
+
   const [tasks, setTasks] = useState<Task[]>(loadTasks)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -228,20 +235,20 @@ function App() {
             <span className="help-icon" aria-hidden="true">✳</span>
             <p>قدم‌های کوچک،<br />پیشرفت‌های بزرگ.</p>
           </div>
-          <button className="profile-button" type="button">
+          <div className="profile-summary">
             <span className="avatar" aria-hidden="true">م</span>
             <span className="profile-copy"><strong>مینا رضایی</strong><small>فضای شخصی</small></span>
             <span className="profile-more" aria-hidden="true">···</span>
-          </button>
+          </div>
         </div>
       </aside>
 
       <section className="main-panel" id="dashboard">
         <header className="topbar">
           <span className="breadcrumb">فضای کاری <span aria-hidden="true">/</span> نمای کلی</span>
-          <button className="icon-button notification-button" type="button" aria-label="اعلان‌ها">
+          <span className="icon-button notification-button" aria-hidden="true">
             ♧<span className="notification-dot" />
-          </button>
+          </span>
         </header>
 
         <div className="dashboard-content">
@@ -252,7 +259,7 @@ function App() {
               <h1 id="page-title">کارهای من <span aria-hidden="true">✦</span></h1>
               <p className="welcome-subtitle">آرام و پیوسته پیش برو؛ داری عالی پیش می‌ری.</p>
             </div>
-              <div className="date-chip"><span aria-hidden="true">◷</span> سه‌شنبه، ۲۱ مهر ۱۴۰۵</div>
+              <div className="date-chip"><span aria-hidden="true">◷</span> {formattedDate}</div>
           </section>
 
           <section className="stats-grid" aria-label="خلاصه کارها">
@@ -313,7 +320,7 @@ function App() {
           <section className="task-section" id="tasks" aria-labelledby="tasks-title">
             <div className="task-section-heading">
               <div><span className="section-kicker">فهرست شما</span><h2 id="tasks-title">کارها <span className="task-total">{taskCounts.all}</span></h2></div>
-              <button className="sort-button" type="button"><span aria-hidden="true">☷</span> جدیدترین <span aria-hidden="true">⌄</span></button>
+              <span className="sort-label"><span aria-hidden="true">☷</span> مرتب‌سازی: جدیدترین</span>
             </div>
             <div className="filter-row" aria-label="فیلتر کارها">
               <button className={`filter-chip ${activeFilter === 'all' ? 'filter-active' : ''}`} type="button" aria-pressed={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>همه <span>{taskCounts.all}</span></button>

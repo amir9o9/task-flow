@@ -17,7 +17,7 @@ button { cursor: pointer; }
 .help-card { padding: 16px; border-radius: 13px; background: linear-gradient(140deg, #f2f2ff, #f8f7ff); color: #666bd5; }
 .help-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px; background: #e4e5ff; font-size: 16px; }
 .help-card p { margin: 12px 0 0; color: #59617a; font-size: 11px; line-height: 1.9; }
-.profile-button { display: flex; align-items: center; width: 100%; gap: 10px; margin-top: 17px; padding: 13px 4px 0; border: 0; border-top: 1px solid #f0f1f5; background: transparent; color: inherit; text-align: right; }
+.profile-summary { display: flex; align-items: center; width: 100%; gap: 10px; margin-top: 17px; padding: 13px 4px 0; border-top: 1px solid #f0f1f5; color: inherit; text-align: right; }
 .avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #ffe5d9; color: #c87758; font-weight: 700; }
 .profile-copy { display: grid; gap: 2px; }.profile-copy strong { font-size: 11px; font-weight: 600; }.profile-copy small { color: #9ba3b3; font-size: 10px; }.profile-more { margin-right: auto; color: #8b94a5; }
 
@@ -61,7 +61,7 @@ h1 span { color: #f0b45d; font-size: 18px; vertical-align: 5px; }
 .add-button:hover { background: #5157cd; transform: translateY(-1px); }.add-button span { margin-left: 4px; font-size: 15px; vertical-align: -1px; }
 
 .task-section { margin-top: 31px; }.task-total { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: 5px; border-radius: 7px; background: #f0f1ff; color: #686dde; font: 600 10px 'DM Sans', sans-serif; vertical-align: 1px; }
-.sort-button { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #eaecf2; border-radius: 8px; background: white; color: #737e91; font-size: 10px; }
+.sort-label { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #eaecf2; border-radius: 8px; background: white; color: #596477; font-size: 12px; }
 .filter-row { display: flex; gap: 7px; overflow-x: auto; margin: 16px 0 12px; padding-bottom: 2px; }
 .filter-chip { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; padding: 7px 11px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: #8c95a5; font-size: 10px; }
 .filter-chip span { color: #a9b0be; font: 10px 'DM Sans', sans-serif; }.filter-chip:hover { background: #fff; }.filter-active { border-color: #e8e9fb; background: #fff; color: #5f64d6; box-shadow: 0 2px 7px #353b6008; }.filter-active span { color: #7075df; }
@@ -90,3 +90,57 @@ h1 span { color: #f0b45d; font-size: 18px; vertical-align: 5px; }
 @media (max-width: 640px) { .app-shell { display: block; }.sidebar { width: 100%; min-height: 0; height: 62px; padding: 0 16px; flex-direction: row; align-items: center; justify-content: space-between; border-left: 0; border-bottom: 1px solid #edf0f5; }.brand { font-size: 18px; }.brand-mark { width: 29px; height: 29px; }.nav-caption, .main-nav, .sidebar-bottom { display: none; }.topbar { height: 55px; padding: 0 18px; }.dashboard-content { padding: 27px 16px 42px; }.welcome-row { align-items: flex-start; flex-direction: column; margin-bottom: 20px; }.date-chip { align-self: flex-start; }.stats-grid { gap: 8px; }.stat-card { min-height: 105px; padding: 12px 10px; }.stat-icon { top: 10px; left: 9px; width: 25px; height: 25px; }.stat-card p { font-size: 9px; }.stat-card strong { font-size: 21px; }.stat-card small { font-size: 8px; }.create-card { padding: 16px 13px; }.task-form { grid-template-columns: 1fr; }.add-button { grid-column: auto; }.task-section { margin-top: 25px; }.task-card { gap: 8px; padding: 11px 9px; }.task-copy h3 { font-size: 10px; }.task-copy p { max-width: 190px; font-size: 8px; }.task-date { display: none; }.status-badge { padding: 5px 6px; font-size: 8px; } }
 @media (max-width: 380px) { .stat-card small { display: none; }.stat-card { min-height: 88px; }.task-card { gap: 6px; }.status-badge { font-size: 7px; }.task-copy p { max-width: 135px; } }
 @media (max-width: 640px) { .edit-task-form { grid-template-columns: 1fr; }.edit-actions { grid-column: auto; }.task-actions { gap: 2px; }.task-edit-button, .task-delete-button { padding: 5px; } }
+
+/* Readability, contrast, and touch-target improvements. */
+.nav-caption, .eyebrow, .section-kicker { color: #667085; font-size: 12px; }
+.nav-link { color: #596477; font-size: 14px; }
+.nav-count, .profile-copy small, .breadcrumb, .welcome-subtitle,
+.stat-card small, .field small, .field .field-counter, .task-date,
+.task-copy p, .filter-chip span { color: #667085; }
+.nav-count, .breadcrumb { font-size: 12px; }
+.profile-copy strong { font-size: 13px; }
+.profile-copy small { font-size: 12px; }
+.welcome-subtitle { font-size: 13px; }
+.date-chip { color: #596477; font-size: 12px; }
+.stat-card p { color: #596477; font-size: 12px; }
+.stat-card small { font-size: 11px; }
+.section-heading h2, .task-section-heading h2 { font-size: 16px; }
+.field { color: #536076; font-size: 13px; }
+.field small, .field .field-error, .field .field-counter { font-size: 11px; }
+.field .field-error { color: #b43845; }
+.field input { min-height: 44px; font-size: 13px; }
+.field input::placeholder { color: #667085; }
+.form-notice { color: #24734f; font-size: 12px; }
+.storage-warning { color: #7a4b0e; font-size: 12px; }
+.add-button { min-height: 44px; font-size: 13px; }
+.task-total { color: #4f54c8; font-size: 11px; }
+.filter-chip { min-height: 36px; color: #596477; font-size: 12px; }
+.filter-chip span { font-size: 11px; }
+.task-copy h3 { font-size: 13px; }
+.task-copy p { font-size: 12px; }
+.task-edit-button, .task-delete-button { min-width: 44px; min-height: 32px; color: #596477; font-size: 12px; }
+.edit-save-button, .edit-cancel-button { min-height: 36px; font-size: 12px; }
+.status-badge { font-size: 12px; }
+.status-todo { color: #596477; }
+.status-in-progress { color: #855600; }
+.status-done { color: #267452; }
+.status-select { min-height: 24px; }
+.empty-state { color: #596477; font-size: 13px; }
+.task-date { font-size: 12px; }
+.see-all-button { min-height: 36px; font-size: 12px; }
+.filter-active span, .see-all-button, .task-edit-button:hover { color: #4f54c8; }
+.icon-button { display: grid; place-items: center; width: 40px; height: 40px; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #5157cd; outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .stat-card p { font-size: 11px; }
+  .stat-card small { font-size: 10px; }
+  .task-copy h3 { font-size: 12px; }
+  .task-copy p { font-size: 11px; }
+  .status-badge { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  .task-card:hover, .add-button:hover { transform: none; }
+}
