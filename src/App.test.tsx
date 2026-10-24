@@ -24,6 +24,36 @@ describe('TaskFlow dashboard', () => {
     expect(screen.getByRole('heading', { level: 2, name: /کارها/ })).toHaveTextContent('3')
   })
 
+  it('loads valid saved tasks instead of the starter tasks', () => {
+    window.localStorage.setItem(storageKey, JSON.stringify([
+      { id: 20, title: 'کار ذخیره‌شده', description: 'از نشست قبلی', status: 'todo', dueLabel: 'امروز' },
+    ]))
+
+    render(<App />)
+
+    expect(screen.getByRole('heading', { name: 'کار ذخیره‌شده' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'طراحی صفحه ورود' })).not.toBeInTheDocument()
+  })
+
+  it('ignores malformed saved data and falls back to starter tasks', () => {
+    window.localStorage.setItem(storageKey, '{not valid json')
+
+    render(<App />)
+
+    expect(screen.getByRole('heading', { name: 'طراحی صفحه ورود' })).toBeInTheDocument()
+  })
+
+  it('does not delete a task when the user cancels confirmation', async () => {
+    const user = userEvent.setup()
+    vi.spyOn(window, 'confirm').mockReturnValue(false)
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'حذف طراحی صفحه ورود' }))
+
+    expect(screen.getByRole('heading', { name: 'طراحی صفحه ورود' })).toBeInTheDocument()
+    expect(window.localStorage.getItem(storageKey)).toBeNull()
+  })
+
   it('requires a non-empty title', async () => {
     const user = userEvent.setup()
     render(<App />)
