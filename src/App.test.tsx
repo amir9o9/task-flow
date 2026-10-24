@@ -78,6 +78,20 @@ describe('TaskFlow dashboard', () => {
     expect(JSON.parse(window.localStorage.getItem(storageKey) ?? '[]')).toHaveLength(4)
   })
 
+  it('keeps the app usable and warns when local storage cannot save changes', async () => {
+    const user = userEvent.setup()
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage is unavailable', 'QuotaExceededError')
+    })
+    render(<App />)
+
+    await user.type(screen.getByPlaceholderText('مثلاً: آماده‌کردن طرح اولیه'), 'کار بدون ذخیره')
+    await user.click(screen.getByRole('button', { name: /افزودن کار/ }))
+
+    expect(screen.getByRole('heading', { name: 'کار بدون ذخیره' })).toBeInTheDocument()
+    expect(screen.getByText(/ذخیره‌سازی مرورگر در دسترس نیست/)).toHaveAttribute('role', 'status')
+  })
+
   it('changes task status and filters by that status', async () => {
     const user = userEvent.setup()
     render(<App />)
