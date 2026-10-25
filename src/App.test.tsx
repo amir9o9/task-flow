@@ -3,7 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 
-const storageKey = 'taskflow.tasks.v1'
+const storageKey = 'task-flow.tasks.v1'
+const legacyStorageKey = 'taskflow.tasks.v1'
 
 describe('TaskFlow dashboard', () => {
   beforeEach(() => {
@@ -33,6 +34,16 @@ describe('TaskFlow dashboard', () => {
 
     expect(screen.getByRole('heading', { name: 'کار ذخیره‌شده' })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'طراحی صفحه ورود' })).not.toBeInTheDocument()
+  })
+
+  it('continues to load tasks saved with the previous storage key', () => {
+    window.localStorage.setItem(legacyStorageKey, JSON.stringify([
+      { id: 21, title: 'کار قدیمی', description: 'باید حفظ شود', status: 'todo', dueLabel: 'امروز' },
+    ]))
+
+    render(<App />)
+
+    expect(screen.getByRole('heading', { name: 'کار قدیمی' })).toBeInTheDocument()
   })
 
   it('ignores malformed saved data and falls back to starter tasks', () => {

@@ -42,7 +42,8 @@ const statusLabels: Record<TaskStatus, string> = {
   done: 'انجام‌شده',
 }
 
-const TASKS_STORAGE_KEY = 'taskflow.tasks.v1'
+const TASKS_STORAGE_KEY = 'task-flow.tasks.v1'
+const LEGACY_TASKS_STORAGE_KEY = 'taskflow.tasks.v1'
 const TITLE_MAX_LENGTH = 80
 const DESCRIPTION_MAX_LENGTH = 200
 
@@ -66,6 +67,7 @@ function loadTasks(): Task[] {
 
   try {
     const savedTasks = window.localStorage.getItem(TASKS_STORAGE_KEY)
+      ?? window.localStorage.getItem(LEGACY_TASKS_STORAGE_KEY)
     if (savedTasks === null) return initialTasks
 
     const parsedTasks: unknown = JSON.parse(savedTasks)
@@ -214,7 +216,7 @@ function App() {
       <aside className="sidebar" aria-label="ناوبری اصلی">
         <a className="brand" href="#dashboard" aria-label="TaskFlow، صفحه اصلی">
           <span className="brand-mark" aria-hidden="true">T</span>
-          <span>taskflow</span>
+          <span>TaskFlow</span>
         </a>
 
         <p className="nav-caption">فضای کاری</p>
