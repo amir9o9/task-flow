@@ -230,27 +230,9 @@ function App() {
           </a>
         </nav>
 
-        <div className="sidebar-bottom">
-          <div className="help-card">
-            <span className="help-icon" aria-hidden="true">✳</span>
-            <p>قدم‌های کوچک،<br />پیشرفت‌های بزرگ.</p>
-          </div>
-          <div className="profile-summary">
-            <span className="avatar" aria-hidden="true">م</span>
-            <span className="profile-copy"><strong>مینا رضایی</strong><small>فضای شخصی</small></span>
-            <span className="profile-more" aria-hidden="true">···</span>
-          </div>
-        </div>
       </aside>
 
       <section className="main-panel" id="dashboard">
-        <header className="topbar">
-          <span className="breadcrumb">فضای کاری <span aria-hidden="true">/</span> نمای کلی</span>
-          <span className="icon-button notification-button" aria-hidden="true">
-            ♧<span className="notification-dot" />
-          </span>
-        </header>
-
         <div className="dashboard-content">
           {storageError && <p className="storage-warning" role="status">ذخیره‌سازی مرورگر در دسترس نیست؛ تغییرات پس از بستن صفحه باقی نمی‌مانند.</p>}
           <section className="welcome-row" aria-labelledby="page-title">
