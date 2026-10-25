@@ -1,20 +1,35 @@
 # TaskFlow
 
-TaskFlow یک داشبورد ساده برای ساخت، پیگیری، ویرایش و حذف کارهای روزانه است. رابط کاربری فارسی و راست‌چین است و داده‌ها را در مرورگر نگه می‌دارد.
+TaskFlow is a Persian, right-to-left task management dashboard for creating, tracking, editing, filtering, and deleting daily tasks. Tasks are stored in the browser using `localStorage`.
 
-## پیش‌نیازها
+## Features
+
+- Create tasks with a title and optional description
+- Edit and delete tasks
+- Change task status and filter the list
+- Persist tasks between browser sessions
+- Validate input and report storage errors
+- Responsive, right-to-left Persian interface
+
+## Requirements
 
 - Node.js
 - npm
 
-## اجرا در حالت توسعه
+## Getting Started
+
+Install dependencies and start the development server:
 
 ```bash
 npm install
 npm run dev
 ```
 
-## بررسی کیفیت و ساخت نسخهٔ نهایی
+Vite will print a local URL in the terminal. Open it in your browser to use the app.
+
+## Quality Checks
+
+Run the automated tests, lint the code, and create a production build:
 
 ```bash
 npm run test
@@ -22,11 +37,17 @@ npm run lint
 npm run build
 ```
 
-## فناوری‌ها
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Tech Stack
 
 - React
 - TypeScript
 - Vite
-- Vitest و Testing Library
+- Vitest and Testing Library
 
-نام فنی بستهٔ npm و پوشهٔ پروژه `task-flow` است؛ نام نمایشی محصول `TaskFlow` است.
+The npm package and project folder use the kebab-case name `task-flow`; the product is displayed as `TaskFlow`.
